@@ -3,17 +3,14 @@ import { Navbar, NavbarBrand, NavbarMenuToggle, NavbarMenuItem, NavbarMenu, Navb
 
 export default function NavbarComponent() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const pathName = window.location.pathname;
 
   const menuItems = [
-    "Profile",
-    "Dashboard",
+    "Home",
+    "BMI",
     "Activity",
-    "Analytics",
-    "System",
-    "Deployments",
-    "My Settings",
-    "Team Settings",
-    "Help & Feedback",
+    "Health Information",
+    "Community",
     "Log Out",
   ];
 
@@ -38,24 +35,24 @@ export default function NavbarComponent() {
         <NavbarBrand>
           <p className="font-bold text-inherit text-white">LOGO</p>
         </NavbarBrand>
-        <NavbarItem isActive>
-          <Link href="#" aria-current="page">
-            <p className="text-white">Home</p>
+        <NavbarItem>
+          <Link href="/" aria-current={pathName === "/" ? "page" : undefined}>
+            <p className={pathName === "/" ? "text-green-500" : "text-white"} >Home</p>
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link href="#">
-          <p className="text-white">BMI</p>
+          <Link href="/BMI" aria-current={pathName === "/BMI" ? "page" : undefined}>
+          <p className={pathName === "/BMI" ? "text-green-500" : "text-white"}>BMI</p>
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link href="#">
-          <p className="text-white">Health Information</p>
+          <Link href="/Health-Information" aria-current={pathName === "/Health-Information" ? "page" : undefined}>
+          <p className={pathName === "/Health-Information" ? "text-green-500" : "text-white"}>Health Information</p>
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link href="#">
-          <p className="text-white">Community</p>
+          <Link href="/Community" aria-current={pathName === "/Community" ? "page" : undefined}>
+          <p className={pathName === "/Community" ? "text-green-500" : "text-white"}>Community</p>
           </Link>
         </NavbarItem>
       </NavbarContent>
