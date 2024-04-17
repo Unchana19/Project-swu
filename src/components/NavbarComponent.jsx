@@ -6,9 +6,7 @@ export default function NavbarComponent() {
   const pathName = window.location.pathname;
 
   const menuItems = [
-    "Home",
     "BMI",
-    "Activity",
     "Health Information",
     "Community",
     "Log Out",
@@ -16,13 +14,13 @@ export default function NavbarComponent() {
 
   return (
     <Navbar
-      className="bg-zinc-700"
+      className="bg-zinc-800"
       isBordered
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
     >
       <NavbarContent className="sm:hidden" justify="start">
-        <NavbarMenuToggle aria-label={isMenuOpen ? "Close menu" : "Open menu"} />
+        <NavbarMenuToggle className="text-white" aria-label={isMenuOpen ? "Close menu" : "Open menu"} />
       </NavbarContent>
 
       <NavbarContent className="sm:hidden pr-3" justify="center">
@@ -37,12 +35,7 @@ export default function NavbarComponent() {
         </NavbarBrand>
         <NavbarItem>
           <Link href="/" aria-current={pathName === "/" ? "page" : undefined}>
-            <p className={pathName === "/" ? "text-green-500" : "text-white"} >Home</p>
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link href="/BMI" aria-current={pathName === "/BMI" ? "page" : undefined}>
-          <p className={pathName === "/BMI" ? "text-green-500" : "text-white"}>BMI</p>
+          <p className={pathName === "/" ? "text-green-500" : "text-white"}>BMI</p>
           </Link>
         </NavbarItem>
         <NavbarItem>
@@ -59,10 +52,10 @@ export default function NavbarComponent() {
 
       <NavbarContent justify="end">
         <NavbarItem className="hidden lg:flex">
-          <Link href="#"><p className="text-white">Login</p></Link>
+          <Link href="/Login"><p className="text-white">Login</p></Link>
         </NavbarItem>
         <NavbarItem>
-          <Button as={Link} color="success" href="#" variant="flat">
+          <Button as={Link} color="success" href="/Sign-Up" variant="flat">
             Sign Up
           </Button>
         </NavbarItem>

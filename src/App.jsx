@@ -1,18 +1,24 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Homepage from "./pages/Homepage";
 import BMIPage from "./pages/BMIPage";
 import "./App.css";
 import NavbarComponent from "./components/NavbarComponent";
+import HealthInformationPage from "./pages/HealthInformationPage";
+import HealthBlogDetailPage from "./pages/HealthBlogDetailPage";
+import SignUpPage from "./pages/SignUpPage";
+import LoginPage from "./pages/LoginPage";
 
 export default function App() {
   return (
     <BrowserRouter>
-      <div className="w-screen min-h-screen bg-zinc-900">
+      <div className="w-screen min-h-screen">
         <NavbarComponent />
         <div className="flex flex-col justify-center items-center">
           <Routes>
-            <Route path="/" element={<Homepage />}></Route>
-            <Route path="/BMI" element={<BMIPage />}></Route>
+            <Route path="/" element={<BMIPage />}></Route>
+            <Route path="/Health-Information" element={<HealthInformationPage />}></Route>
+            <Route path="/Health-Information/:blogId" element={<HealthBlogDetailPage />} ></Route>
+            <Route path="/Sign-Up" element={<SignUpPage />}></Route>
+            <Route path="/Login" element={<LoginPage />}></Route>
           </Routes>
         </div>
 

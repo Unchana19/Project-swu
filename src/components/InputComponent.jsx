@@ -1,23 +1,26 @@
 import { Input } from "@nextui-org/react";
-import { useMemo } from "react";
+import React, { useMemo } from "react";
 
 export default function InputComponent({type, value, setValue, label, invalidText}) {
-
+    const validateEmail = (value) => value.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i);
     const isInvalid = useMemo(() => {
         if (value === "" || value === null) return true;
         if (type === "number") {
             if (value < 0) {
                 invalidText = "กรุณากรอกจำนวนให้ถูกต้อง";
                 return true;                  
-            } else {
-                invalidText = {invalidText};
             }
         }
+        if (type == "email") {
+            invalidText = "กรุณากรอกรูปแบบอีเมลล์ที่ถูกต้อง";
+            return validateEmail(value) ? false : true;
+        }
+        invalidText = {invalidText}
       }, [value]);
 
     return (
         <Input 
-        className="my-5"
+        className="my-2"
         size="lg"
         type={type}
         value={value}
