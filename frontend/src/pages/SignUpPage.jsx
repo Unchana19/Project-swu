@@ -1,13 +1,15 @@
 import { Button, useDisclosure } from "@nextui-org/react";
 import InputComponent from "../components/InputComponent";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import InputPasswordComponent from "../components/InputPasswordComponent";
 import InputConfirmPasswordComponent from "../components/InputConfirmPasswordComponent";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import ModalPopup from "../components/ModalPopUp";
+import { getSession } from "../services/authorize";
 
 export default function SignUpPage() {
+    const navigate = useNavigate();
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const [textPopup, setTextPopup] = useState("");
     const [link, setLink] = useState();
@@ -16,6 +18,10 @@ export default function SignUpPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+
+    useEffect(() => {
+        getSession("username") && navigate("/");
+    }, []);
 
     const signUp = (e) => {
         e.preventDefault();
@@ -52,7 +58,7 @@ export default function SignUpPage() {
                 <InputPasswordComponent value={password} setValue={setPassword} label={"Password"} invalidText={"กรุณากรอกรหัสผ่านอย่างน้อย 6 ตัว"} />
                 <InputConfirmPasswordComponent value={confirmPassword} setValue={setConfirmPassword} label={"Confirm Password"} invalidText={"กรุณายืนยันรหัสผ่าน"} password={password} />
                 <Button type="submit" className="my-3" color="success" size="lg">
-                    <p className="text-xl">Sign up</p>
+                    <p className="text-xl px-5">Sign up</p>
                 </Button>
                 <div className="mt-5 flex justify-center items-center">
                     <p className="text-sm p">มีบัญชีอยู่แล้วไช่หรือไม่?</p>

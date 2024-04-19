@@ -6,6 +6,8 @@ import HealthInformationPage from "./pages/HealthInformationPage";
 import HealthBlogDetailPage from "./pages/HealthBlogDetailPage";
 import SignUpPage from "./pages/SignUpPage";
 import LoginPage from "./pages/LoginPage";
+import CommunityPage from "./pages/CommunityPage";
+import ProfilePage from "./pages/ProfilePage";
 
 export default function App() {
   return (
@@ -17,6 +19,8 @@ export default function App() {
             <Route path="/" element={<BMIPage />}></Route>
             <Route path="/Health-Information" element={<HealthInformationPage />}></Route>
             <Route path="/Health-Information/:blogId" element={<HealthBlogDetailPage />} ></Route>
+            <Route path="/Community" element={<CommunityPage />}></Route>
+            <Route path="/Profile" element={<ProfilePage />}></Route>
             <Route path="/Sign-Up" element={<SignUpPage />}></Route>
             <Route path="/Login" element={<LoginPage />}></Route>
           </Routes>

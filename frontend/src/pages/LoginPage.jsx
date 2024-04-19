@@ -1,27 +1,34 @@
 import { Button, useDisclosure } from "@nextui-org/react";
 import InputComponent from "../components/InputComponent";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import InputPasswordComponent from "../components/InputPasswordComponent";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import ModalPopup from "../components/ModalPopUp";
+import { authenticate, getSession } from "../services/authorize";
 
 export default function LoginPage() {
+    const navigate = useNavigate();
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const [textPopup, setTextPopup] = useState("");
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    useEffect(() => {
+        getSession("username") && navigate("/");
+    }, []);
+
+    const refreshPage = () => {
+        navigate("/")
+        window.location.reload()
+    }
+
     const login = (e) => {
         e.preventDefault();
         axios.post(`${import.meta.env.VITE_API}/login`, {email, password})
-            .then(res => {
-                setTextPopup("เข้าสู่ระบบสำเร็จ");
-                onOpen()
-
-                setEmail("");
-                setPassword("");
+            .then(response => {
+               authenticate(response, () => refreshPage());
             }).catch(err => {
                 setTextPopup(err.response.data.error);
                 onOpen()
@@ -35,7 +42,7 @@ export default function LoginPage() {
                 <p className="text-5xl font-bold mb-10">LOGO</p>
                 <InputComponent type={"email"} value={email} setValue={setEmail} label={"Email"} invalidText={"กรุณากรอกอีเมลล์"} />
                 <InputPasswordComponent value={password} setValue={setPassword} label={"Password"} invalidText={"กรุณากรอกรหัสผ่าน"} />
-                <Button type="submit" className="my-3" color="success" size="lg">
+                <Button type="submit" className="my-3 px-10" color="success" size="lg">
                     <p className="text-xl">Login</p>
                 </Button>
                 <div className="mt-5 flex justify-center items-center">

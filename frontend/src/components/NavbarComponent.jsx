@@ -1,5 +1,6 @@
 import React from "react";
-import { Navbar, NavbarBrand, NavbarMenuToggle, NavbarMenuItem, NavbarMenu, NavbarContent, NavbarItem, Link, Button } from "@nextui-org/react";
+import { Navbar, NavbarBrand, NavbarMenuToggle, NavbarMenuItem, NavbarMenu, NavbarContent, NavbarItem, Link, Button, Avatar } from "@nextui-org/react";
+import { getSession } from "../services/authorize";
 
 export default function NavbarComponent() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -35,29 +36,35 @@ export default function NavbarComponent() {
         </NavbarBrand>
         <NavbarItem>
           <Link href="/" aria-current={pathName === "/" ? "page" : undefined}>
-          <p className={pathName === "/" ? "text-green-500" : "text-white"}>BMI</p>
+            <p className={pathName === "/" ? "text-green-500" : "text-white"}>BMI</p>
           </Link>
         </NavbarItem>
         <NavbarItem>
           <Link href="/Health-Information" aria-current={pathName === "/Health-Information" ? "page" : undefined}>
-          <p className={pathName === "/Health-Information" ? "text-green-500" : "text-white"}>Health Information</p>
+            <p className={pathName === "/Health-Information" ? "text-green-500" : "text-white"}>Health Information</p>
           </Link>
         </NavbarItem>
         <NavbarItem>
           <Link href="/Community" aria-current={pathName === "/Community" ? "page" : undefined}>
-          <p className={pathName === "/Community" ? "text-green-500" : "text-white"}>Community</p>
+            <p className={pathName === "/Community" ? "text-green-500" : "text-white"}>Community</p>
           </Link>
         </NavbarItem>
       </NavbarContent>
 
       <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
-          <Link href="/Login"><p className="text-white">Login</p></Link>
+        <NavbarItem className="hidden sm:flex">
+          {getSession("username") ?
+            <p className="text-white">{getSession("username")}</p> :
+            <Link href="/Sign-Up"><p className="text-white">Sign up</p></Link>}
         </NavbarItem>
-        <NavbarItem>
-          <Button as={Link} color="success" href="/Sign-Up" variant="flat">
-            Sign Up
-          </Button>
+        <NavbarItem className="items-center justify-center flex">
+          {getSession("username") ?
+            <Link href="/Profile">
+              <Avatar showFallback src='https://images.unsplash.com/broken' />
+            </Link> :
+            <Button as={Link} color="success" href="/Login" variant="flat">
+              Login
+            </Button>}
         </NavbarItem>
       </NavbarContent>
 
