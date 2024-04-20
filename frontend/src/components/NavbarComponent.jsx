@@ -1,16 +1,25 @@
 import React from "react";
 import { Navbar, NavbarBrand, NavbarMenuToggle, NavbarMenuItem, NavbarMenu, NavbarContent, NavbarItem, Link, Button, Avatar } from "@nextui-org/react";
 import { getSession } from "../services/authorize";
+import {useNavigate} from "react-router-dom";
 
 export default function NavbarComponent() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const pathName = window.location.pathname;
+  const navigate = useNavigate();
 
   const menuItems = [
     "BMI",
     "Health Information",
     "Community",
     "Log Out",
+  ];
+
+  const linkItem = [
+    "/",
+    "/Health-Information",
+    "/Community",
+    "/Profile",
   ];
 
   return (
@@ -74,9 +83,9 @@ export default function NavbarComponent() {
             <Link
               className="w-full"
               color={
-                index === 2 ? "success" : index === menuItems.length - 1 ? "danger" : "foreground"
+                pathName === linkItem[index] ? "success" : index === menuItems.length - 1 ? "danger" : "foreground"
               }
-              href="#"
+              onPress={() => navigate(linkItem[index])}
               size="lg"
             >
               {item}
