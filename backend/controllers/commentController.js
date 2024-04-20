@@ -1,6 +1,6 @@
-import { create, find, findOneAndDelete, deleteMany, findOneAndUpdate } from "../models/comment";
+const Comments = require("../models/comment");
 
-export async function comment(req, res) {
+exports.comment = async (req, res) => {
     const {postId, author, content} = req.body;
 
     switch(true) {
@@ -8,17 +8,17 @@ export async function comment(req, res) {
             return res.status(400).json({error: "invalid content"});
     }
     try {
-        const comment = await create({postId, author, content});
+        const comment = await Comments.create({postId, author, content});
         res.json(comment);
     } catch (err) {
         res.status(400).json({error: err.message});
     }
 }
 
-export async function getAllComment(req, res) {
+exports.getAllComment = async (req, res) => {
     const {postId} = req.body;
 
-    find({postId: postId}).sort({ createdAt: -1 }).exec()
+    Comments.find({postId: postId}).sort({ createdAt: -1 }).exec()
     .then(comments => {
         res.json(comments);
     }).catch(err => {
@@ -26,9 +26,9 @@ export async function getAllComment(req, res) {
     });
 }
 
-export async function removeComment(req, res) {
+exports.removeComment = async (req, res) => {
     const {commentId} = req.params;
-    findOneAndDelete({ _id: commentId})
+    Comments.findOneAndDelete({ _id: commentId})
     .then(comment => {
         res.json({message: "ลบสำเร็จ"});
     }).catch(err => {
@@ -36,9 +36,9 @@ export async function removeComment(req, res) {
     });
 }
 
-export async function removeCommentInPost(req, res) {
+exports.removeCommentInPost = async (req, res) => {
     const {postId} = req.params;
-    deleteMany({ postId: postId })
+    Comments.deleteMany({ postId: postId })
     .then(comments => {
         res.json({message: "ลบคอมเมนต์สำเร็จ"});
     }).catch(err => {
@@ -46,10 +46,10 @@ export async function removeCommentInPost(req, res) {
     })
 }
 
-export async function updateComment(req, res) {
+exports.updateComment = async (req, res) => {
     const {commentId} = req.params;
     const {postId, author, content} = req.body;
-    findOneAndUpdate({_id: commentId}, {postId, author, content}, {new: true}).exec()
+    Comments.findOneAndUpdate({_id: commentId}, {postId, author, content}, {new: true}).exec()
     .then(comment => {
         res.json({message: "อัพเดทคอมเมนต์สำเร็จ"});
     }).catch(err => {

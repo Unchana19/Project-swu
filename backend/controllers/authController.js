@@ -1,9 +1,9 @@
-import { create, findOne } from "../models/user";
-import { compare } from "bcrypt";
-import { sign } from "jsonwebtoken";
-import expressJwt from 'express-jwt';
+const Users = require("../models/user");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const expressJwt = require('express-jwt');
 
-export async function createAccount(req, res) {
+exports.createAccount = async (req, res) => {
     const { username, email, password } = req.body;
     const role = "user";
 
@@ -15,7 +15,7 @@ export async function createAccount(req, res) {
     }
 
     try {
-        const user = await create({ username, email, password, role });
+        const user = await Users.create({ username, email, password, role });
         res.json(user);
     } catch (err) {
         if (err.code === 11000) {
@@ -26,23 +26,23 @@ export async function createAccount(req, res) {
     }
 }
 
-export async function login(req, res) {
+exports.login = async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
         return res.status(400).json({ error: "Email and password are required" });
     }
 
-    findOne({ email }).exec()
+    Users.findOne({ email }).exec()
         .then((user) => {
             if (!user) {
                 return res.status(404).json({ error: "User not found" });
             }
             const username = user.username;
 
-            compare(password, user.password).then((match) => {
+            bcrypt.compare(password, user.password).then((match) => {
                 if (match) {
-                    const token = sign({ username },
+                    const token = jwt.sign({ username },
                         process.env.JWT_SECRET, { expiresIn: "1d" })
                     return res.json({ token, username });
                 } else {
@@ -56,7 +56,7 @@ export async function login(req, res) {
         });
 }
 
-export const requireLogin = expressJwt({
+exports.requireLogin = expressJwt({
     secret: process.env.JWT_SECRET,
     algorithms: ["HS256"],
     userProperty: "auth",}
