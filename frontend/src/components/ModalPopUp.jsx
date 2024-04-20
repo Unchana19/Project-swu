@@ -13,7 +13,7 @@ export default function ModalPopup({ isOpen, onOpenChange, text, link }) {
   
   return (
     <>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal hideCloseButton isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
             <>
