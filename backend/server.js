@@ -4,9 +4,9 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-const authRoute = require("./routes/auth").default;
-const communityRoute = require("./routes/community").default;
-const commentRouter = require("./routes/comment").default;
+const authRoute = require("./routes/auth");
+const communityRoute = require("./routes/community");
+const commentRouter = require("./routes/comment");
 
 const app = express();
 

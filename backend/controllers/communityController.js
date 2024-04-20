@@ -1,4 +1,4 @@
-const Commnunities = require("../models/community");
+const Commnunities = require("../models/Communities");
 
 exports.create = async (req, res) => {
     const { author, content } = req.body;
