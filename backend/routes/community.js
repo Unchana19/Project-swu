@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const { create, getAllPosts } = require("../controllers/communityController");
+const { create, getAllPosts, removePost } = require("../controllers/communityController");
 const { requireLogin } = require("../controllers/authController");
 
-router.post("/create", requireLogin, create);
 router.get("/posts", getAllPosts);
+router.post("/create", requireLogin, create);
+router.delete("/post/:postId", requireLogin, removePost);
 
 module.exports = router;

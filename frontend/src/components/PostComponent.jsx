@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Card, CardHeader, CardBody, CardFooter, Link } from "@nextui-org/react";
+import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/react";
 import ProfileComponent from "./ProfileComponent";
 import InputCommentComponent from "../components/InputCommentCompponent";
 import axios from "axios";
 import { getSession } from "../services/authorize";
 import DropdownComponent from "../components/DropdownComponent";
 
-export default function PostComponent({ post }) {
+export default function PostComponent({ post, onOpen, setTextPopup }) {
     const [comment, setComment] = useState("");
     const [allComment, setAllComment] = useState([]);
 
@@ -29,7 +29,7 @@ export default function PostComponent({ post }) {
                 <div className="flex flex-col">
                     <ProfileComponent username={post.author} description={`${new Date(post.createdAt).toLocaleString()}`} />
                 </div>
-                {post.author === getSession("username") && <DropdownComponent type={"Post"} />}
+                {post.author === getSession("username") && <DropdownComponent type={"Post"} data={post} deleteSuccessPopup={onOpen} setDeleteSuccessTextPopup={setTextPopup} />}
             </CardHeader>
             <CardBody>
                 <p>{post.content}</p>
@@ -41,8 +41,8 @@ export default function PostComponent({ post }) {
                         allComment.map((comment, index) => {
                             return (
                                 <div className="flex justify-between">
-                                    <ProfileComponent key={index} username={comment.author} usernameSize={"xs"} description={comment.content} />
-                                    {comment.author === getSession("username") && <DropdownComponent type={"Comment"} />}
+                                    <ProfileComponent key={comment._id} username={comment.author} usernameSize={"xs"} description={comment.content} />
+                                    {comment.author === getSession("username") && <DropdownComponent key={index} type={"Comment"} data={comment} deleteSuccessPopup={onOpen} setDeleteSuccessTextPopup={setTextPopup} />}
                                 </div>
                             )
                         })

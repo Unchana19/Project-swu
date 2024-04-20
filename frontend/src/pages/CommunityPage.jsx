@@ -9,7 +9,7 @@ import PostComponent from "../components/PostComponent";
 export default function CommunityPage() {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const [textPopup, setTextPopup] = useState("");
-    const [link, setLink] = useState();
+    const [link, setLink] = useState("Community");
 
     const [content, setContent] = useState("");
     const [allPosts, setAllPosts] = useState([]);
@@ -32,7 +32,6 @@ export default function CommunityPage() {
     const communityPost = (e) => {
         e.preventDefault();
         if (getSession("username")) {
-            setLink("Community");
             const author = getSession("username");
             axios.post(`${import.meta.env.VITE_API}/create`, { author, content },
         {
@@ -69,7 +68,7 @@ export default function CommunityPage() {
             <div className="w-full max-w-xl my-10 flex flex-col gap-5">
                 {
                     allPosts.map((post, index) => {
-                        return <PostComponent key={index} post={post} />
+                        return <PostComponent key={index} post={post} onOpen={onOpen} setTextPopup={setTextPopup} />
                     })
                 }
             </div>

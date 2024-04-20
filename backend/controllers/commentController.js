@@ -18,7 +18,7 @@ exports.comment = async (req, res) => {
 exports.getAllComment = async (req, res) => {
     const {postId} = req.body;
 
-    Comments.find({postId: postId}).exec()
+    Comments.find({postId: postId}).sort({ createdAt: -1 }).exec()
     .then(comments => {
         res.json(comments);
     }).catch(err => {
@@ -27,11 +27,21 @@ exports.getAllComment = async (req, res) => {
 }
 
 exports.removeComment = async (req, res) => {
-    const {commentId} = req.body;
-    Comments.findOneAndDelete({commentId})
+    const {commentId} = req.params;
+    Comments.findOneAndDelete({ _id: commentId})
     .then(comment => {
-        res.json({message: "Delete Success"});
+        res.json({message: "ลบสำเร็จ"});
     }).catch(err => {
         res.status(500).josn({error: "Internal Server Error"});
     });
+}
+
+exports.removeCommentInPost = async (req, res) => {
+    const {postId} = req.params;
+    Comments.deleteMany({ postId: postId })
+    .then(comments => {
+        res.json({message: "ลบสำเร็จ"});
+    }).catch(err => {
+        res.status(500).json({error: "Internal Server"});
+    })
 }

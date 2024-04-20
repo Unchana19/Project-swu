@@ -17,9 +17,19 @@ exports.create = async (req, res) => {
 }
 
 exports.getAllPosts = (req, res) => {
-    Commnunities.find({}).exec()
+    Commnunities.find({}).sort({ createdAt: -1 }).exec()
     .then(posts => {
         res.json(posts);
+    }).catch(err => {
+        res.status(500).json({error: "Internal Server Error"});
+    });
+}
+
+exports.removePost = (req, res) => {
+    const {postId} = req.params;
+    Commnunities.findOneAndDelete({ _id: postId })
+    .then(post => {
+        res.json({message: "ลบสำเร็จ"});
     }).catch(err => {
         res.status(500).json({error: "Internal Server Error"});
     });
