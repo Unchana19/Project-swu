@@ -14,7 +14,7 @@ export default function HealthBlogComponent({ id, title, subTitle, image }) {
                     isZoomed
                     removeWrapper
                     alt={title}
-                    className="z-0 w-full h-full object-cover"
+                    className="z-0 w-full h-full object-cover contrast-50 brightness-75"
                     src={image}
                 />
                 <CardFooter className="absolute bg-black/40 bottom-0 z-10 border-t-1 border-default-600 dark:border-default-100">
