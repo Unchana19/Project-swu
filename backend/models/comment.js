@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+import { Schema, model } from "mongoose";
 
-const commentSchema = mongoose.Schema({
+const commentSchema = Schema({
     postId: {
         type: String,
         required: true,
@@ -15,4 +15,4 @@ const commentSchema = mongoose.Schema({
     }
 }, {timestamps: true});
 
-module.exports = mongoose.model("Comments", commentSchema);
+export default model("Comments", commentSchema);

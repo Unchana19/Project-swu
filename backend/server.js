@@ -1,22 +1,22 @@
-const express = require("express");
-const morgan = require("morgan");
-const cors = require("cors");
-const mongoose = require("mongoose");
+import express, { json } from "express";
+import morgan from "morgan";
+import cors from "cors";
+import { connect } from "mongoose";
 require("dotenv").config();
 
-const authRoute = require("./routes/auth");
-const communityRoute = require("./routes/community");
-const commentRouter = require("./routes/comment");
+import authRoute from "./routes/auth";
+import communityRoute from "./routes/community";
+import commentRouter from "./routes/comment";
 
 const app = express();
 
-mongoose.connect(process.env.DB_CON, {
+connect(process.env.DB_CON, {
     useNewUrlParser: true,
     useUnifiedTopology: false,
 }).then(() => console.log("connect successful"))
 .catch((err) => console.log(err));
 
-app.use(express.json());
+app.use(json());
 app.use(cors());
 app.use(morgan("dev"));
 

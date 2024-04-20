@@ -1,6 +1,6 @@
-const Commnunities = require("../models/community");
+import { create, find, findOneAndDelete, findOneAndUpdate } from "../models/community";
 
-exports.create = async (req, res) => {
+export async function create(req, res) {
     const { author, content } = req.body;
 
     switch (true) {
@@ -9,15 +9,15 @@ exports.create = async (req, res) => {
     }
 
     try {
-        const community = await Commnunities.create({author, content});
+        const community = await create({author, content});
         res.json(community);
     } catch (err) {
         res.status(400).json({error: err.massage});
     }
 }
 
-exports.getAllPosts = (req, res) => {
-    Commnunities.find({}).sort({ createdAt: -1 }).exec()
+export function getAllPosts(req, res) {
+    find({}).sort({ createdAt: -1 }).exec()
     .then(posts => {
         res.json(posts);
     }).catch(err => {
@@ -25,9 +25,9 @@ exports.getAllPosts = (req, res) => {
     });
 }
 
-exports.removePost = (req, res) => {
+export function removePost(req, res) {
     const {postId} = req.params;
-    Commnunities.findOneAndDelete({ _id: postId })
+    findOneAndDelete({ _id: postId })
     .then(post => {
         res.json({message: "ลบโพสต์สำเร็จ"});
     }).catch(err => {
@@ -35,10 +35,10 @@ exports.removePost = (req, res) => {
     });
 }
 
-exports.updatePost = (req, res) => {
+export function updatePost(req, res) {
     const {postId} = req.params;
     const {author, content} = req.body;
-    Commnunities.findOneAndUpdate({_id: postId}, {author, content}, {new: true}).exec()
+    findOneAndUpdate({_id: postId}, {author, content}, {new: true}).exec()
     .then(post => {
         res.json({message: "อัพเดตโพสต์สำเร็จ"});
     }).catch(err => {

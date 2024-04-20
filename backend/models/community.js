@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+import { Schema, model } from "mongoose";
 
-const communitySchema = mongoose.Schema({
+const communitySchema = Schema({
     author: {
         type: String,
         required: true,
@@ -11,4 +11,4 @@ const communitySchema = mongoose.Schema({
     },
 }, {timestamps: true});
 
-module.exports = mongoose.model("Commnuities", communitySchema);
+export default model("Commnuities", communitySchema);

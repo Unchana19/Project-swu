@@ -1,7 +1,7 @@
-const express = require("express");
-const router = express.Router();
-const { comment, getAllComment, removeComment, removeCommentInPost, updateComment } = require("../controllers/commentController");
-const { requireLogin } = require("../controllers/authController");
+import { Router } from "express";
+const router = Router();
+import { comment, getAllComment, removeComment, removeCommentInPost, updateComment } from "../controllers/commentController";
+import { requireLogin } from "../controllers/authController";
 
 router.post("/comments", getAllComment);
 router.post("/comment", requireLogin, comment);
@@ -9,4 +9,4 @@ router.delete("/comment/:commentId", requireLogin, removeComment);
 router.delete("/commentInPost/:postId", requireLogin, removeCommentInPost);
 router.put("/comment/:commentId", requireLogin, updateComment);
 
-module.exports = router
+export default router
