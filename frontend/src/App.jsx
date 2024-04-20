@@ -1,4 +1,4 @@
-import { Routes, Route, HashRouter } from "react-router-dom";
+import { Routes, Route, HashRouter, BrowserRouter } from "react-router-dom";
 import BMIPage from "./pages/BMIPage";
 import "./App.css";
 import NavbarComponent from "./components/NavbarComponent";
@@ -27,7 +27,6 @@ export default function App() {
             <Route path="/Login" element={<LoginPage />}></Route>
           </Routes>
         </div>
-
       </div>
     </HashRouter>
   )
