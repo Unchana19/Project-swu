@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route, HashRouter } from "react-router-dom";
 import BMIPage from "./pages/BMIPage";
 import "./App.css";
 import NavbarComponent from "./components/NavbarComponent";
@@ -12,7 +12,7 @@ import ScrollToTopButton from "./components/ScrollToTopButton";
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <div className="w-screen min-h-screen">
         <NavbarComponent />
         <ScrollToTopButton />
@@ -29,6 +29,6 @@ export default function App() {
         </div>
 
       </div>
-    </BrowserRouter>
+    </HashRouter>
   )
 }
