@@ -4,6 +4,13 @@ import { Link } from "react-router-dom";
 
 export default function ModalPopup({ isOpen, onOpenChange, text, link }) {
 
+  const refreshPage = (onClose) => {
+    onClose();
+    if (link !== "Login") {
+      window.location.reload();
+    }
+  }
+  
   return (
     <>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
@@ -18,10 +25,10 @@ export default function ModalPopup({ isOpen, onOpenChange, text, link }) {
               </ModalBody>
               <ModalFooter className="flex justify-center items-center">
                 {link != null ? (<Link to={`/${link}`}>
-                  <Button color="danger" variant="light" onPress={onClose}>
+                  <Button color="danger" variant="light" onPress={() => refreshPage(onClose)}>
                     Close
                   </Button>
-                </Link>) : (<Button color="danger" variant="light" onPress={onClose}>
+                </Link>) : (<Button color="danger" variant="light" onPress={() => refreshPage(onClose)}>
                   Close
                 </Button>)}
               </ModalFooter>

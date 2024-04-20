@@ -40,6 +40,7 @@ export default function CommunityPage() {
             }
         })
                 .then(response => {
+                    setLink("Community");
                     setTextPopup("สร้างโพสต์สำเร็จ");
                     onOpen()
 
