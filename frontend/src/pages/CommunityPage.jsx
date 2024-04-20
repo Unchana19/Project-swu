@@ -53,11 +53,10 @@ export default function CommunityPage() {
             setTextPopup("กรุณาเข้าสู่ระบบก่อน");
             onOpen()
         }
-
     }
 
     return (
-        <div className="w-full flex flex-col justify-center items-center py-10">
+        <div className="w-full flex flex-col justify-center items-center py-10 px-3">
             <ModalPopup isOpen={isOpen} onOpenChange={onOpenChange} text={textPopup} buttonText={"Close"} link={link} />
             <form onSubmit={communityPost} className="w-full flex flex-col justify-center items-center gap-5">
                 <TextAreaComponent value={content} setValue={setContent} />

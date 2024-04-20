@@ -33,7 +33,7 @@ export default function InputEditComponent({type, value, setValue, label, invali
         variant="bordered"
         errorMessage={isInvalid && `${invalidText}`}
         isReadOnly={isEdit}
-        endContent={<Button color={button[1]} onPress={editUsername}>{button[0]}</Button>}
+        // endContent={<Button color={button[1]} onPress={editUsername}>{button[0]}</Button>}
         />
     )
 }

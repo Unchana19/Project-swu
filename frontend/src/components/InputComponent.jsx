@@ -18,13 +18,19 @@ export default function InputComponent({type, value, setValue, label, invalidTex
         invalidText = {invalidText}
       }, [value]);
 
+      const limitInput = (value) => {
+        if (value.length <= 20) {
+            setValue(value);
+        }
+      }
+
     return (
         <Input 
         className="my-2"
         size="lg"
         type={type}
         value={value}
-        onValueChange={setValue}
+        onValueChange={type === "text" ? ((value) => limitInput(value)) : (setValue)}
         label={label}
         isInvalid={isInvalid}
         color={isInvalid ? "danger" : "success"}

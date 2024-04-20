@@ -8,12 +8,14 @@ import SignUpPage from "./pages/SignUpPage";
 import LoginPage from "./pages/LoginPage";
 import CommunityPage from "./pages/CommunityPage";
 import ProfilePage from "./pages/ProfilePage";
+import ScrollToTopButton from "./components/ScrollToTopButton";
 
 export default function App() {
   return (
     <BrowserRouter>
       <div className="w-screen min-h-screen">
         <NavbarComponent />
+        <ScrollToTopButton />
         <div className="flex flex-col justify-center items-center">
           <Routes>
             <Route path="/" element={<BMIPage />}></Route>

@@ -29,20 +29,20 @@ export default function PostComponent({ post, onOpen, setTextPopup }) {
                 <div className="flex flex-col">
                     <ProfileComponent username={post.author} description={`${new Date(post.createdAt).toLocaleString()}`} />
                 </div>
-                {post.author === getSession("username") && <DropdownComponent type={"Post"} data={post} deleteSuccessPopup={onOpen} setDeleteSuccessTextPopup={setTextPopup} />}
+                {post.author === getSession("username") && <DropdownComponent type={"Post"} data={post} successPopup={onOpen} setSuccessTextPopup={setTextPopup} />}
             </CardHeader>
-            <CardBody>
+            <CardBody className="max-h-80 overflow-y-auto">
                 <p>{post.content}</p>
             </CardBody>
             <CardFooter>
-                <div className="w-full flex flex-col gap-2">
+                <div className="w-full flex flex-col gap-2 max-h-80 overflow-y-auto">
                     <InputCommentComponent value={comment} setValue={setComment} postId={post._id} />
                     {
                         allComment.map((comment, index) => {
                             return (
                                 <div className="flex justify-between">
                                     <ProfileComponent key={comment._id} username={comment.author} usernameSize={"xs"} description={comment.content} />
-                                    {comment.author === getSession("username") && <DropdownComponent key={index} type={"Comment"} data={comment} deleteSuccessPopup={onOpen} setDeleteSuccessTextPopup={setTextPopup} />}
+                                    {comment.author === getSession("username") && <DropdownComponent key={index} type={"Comment"} data={comment} successPopup={onOpen} setSuccessTextPopup={setTextPopup} />}
                                 </div>
                             )
                         })

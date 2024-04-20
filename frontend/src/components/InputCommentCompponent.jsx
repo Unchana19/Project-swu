@@ -1,17 +1,18 @@
 import { Button, Input } from "@nextui-org/react";
 import axios from "axios";
 import { getSession } from "../services/authorize";
+import SendIcon from "./SendIcon";
 
 export default function InputCommentComponet({ value, setValue, postId }) {
     const comment = () => {
         const author = getSession("username");
         const content = value;
         axios.post(`${import.meta.env.VITE_API}/comment`, { postId, author, content },
-        {
-            headers: {
-                Authorization: `Bearer ${getSession("token")}`
-            }
-        })
+            {
+                headers: {
+                    Authorization: `Bearer ${getSession("token")}`
+                }
+            })
             .then(response => {
                 window.location.reload()
             }).catch(err => {
@@ -29,7 +30,7 @@ export default function InputCommentComponet({ value, setValue, postId }) {
             onValueChange={setValue}
             isDisabled={!getSession("username")}
             endContent={
-                <Button onPress={comment} size="sm">เพิ่ม</Button>
+                postId && <Button onPress={comment} size="sm" isIconOnly ><SendIcon /></Button>
             }
         />
 

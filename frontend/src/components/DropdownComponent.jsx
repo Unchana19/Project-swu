@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDisclosure, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button, cn } from "@nextui-org/react";
 import { EditDocumentIcon } from "./EditDocumentIcon.jsx";
 import { DeleteDocumentIcon } from "./DeleteDocumentIcon.jsx";
@@ -6,10 +6,14 @@ import BarIcon from "./BarIcon.jsx";
 import axios from "axios";
 import { getSession } from "../services/authorize";
 import ConfirmDeleteComponent from "./ConfirmDeleteComponent.jsx";
+import UpdateModalComponent from "./UpdateModalComponent.jsx";
 
-export default function DropdownComponent({ type, data, deleteSuccessPopup, setDeleteSuccessTextPopup }) {
+export default function DropdownComponent({ type, data, successPopup, setSuccessTextPopup }) {
   const iconClasses = "text-xl text-default-500 pointer-events-none flex-shrink-0";
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const modal = useDisclosure();
+  const updateModal = useDisclosure();
+
+  const [content, setContent] = useState("");
 
   const deleteComment = () => {
     axios.delete(`${import.meta.env.VITE_API}/comment/${data._id}`,
@@ -19,11 +23,11 @@ export default function DropdownComponent({ type, data, deleteSuccessPopup, setD
         }
       })
       .then(response => {
-        setDeleteSuccessTextPopup(response.data.message);
-        deleteSuccessPopup();
+        setSuccessTextPopup(response.data.message);
+        successPopup();
       }).catch(err => {
-        setDeleteSuccessTextPopup(err.response.data.error);
-        deleteSuccessPopup();
+        setSuccessTextPopup(err.response.data.error);
+        successPopup();
       });
   }
 
@@ -41,21 +45,54 @@ export default function DropdownComponent({ type, data, deleteSuccessPopup, setD
           }
         })
           .then((response) => {
-            setDeleteSuccessTextPopup(response.data.message);
-            deleteSuccessPopup();
+            setSuccessTextPopup(response.data.message);
+            successPopup();
           }).catch(err => {
-            setDeleteSuccessTextPopup(err.response.data.error);
-            deleteSuccessPopup();
+            setSuccessTextPopup(err.response.data.error);
+            successPopup();
           });
       }).catch(err => {
-        setDeleteSuccessTextPopup(err.response.data.error);
-        deleteSuccessPopup();
+        setSuccessTextPopup(err.response.data.error);
+        successPopup();
       })
+  }
+
+  const updatePost = () => {
+    axios.put(`${import.meta.env.VITE_API}/post/${data._id}`, { content },
+      {
+        headers: {
+          Authorization: `Bearer ${getSession("token")}`
+        }
+      })
+      .then(response => {
+        setSuccessTextPopup(response.data.message);
+        successPopup();
+      }).catch(err => {
+        setSuccessTextPopup(response.data.message);
+        successPopup();
+      })
+  }
+
+  const updateComment = () => {
+    axios.put(`${import.meta.env.VITE_API}/comment/${data._id}`, { content },
+      {
+        headers: {
+          Authorization: `Bearer ${getSession("token")}`
+        }
+      })
+      .then(response => {
+        setSuccessTextPopup(response.data.message);
+        successPopup();
+      }).catch(err => {
+        setSuccessTextPopup(response.data.message);
+        successPopup();
+      });
   }
 
   return (
     <div>
-      <ConfirmDeleteComponent isOpen={isOpen} type={type} onOpenChange={onOpenChange} action={() => type === "Comment" ? deleteComment() : deletePost()} />
+      <UpdateModalComponent type={type} isOpen={updateModal.isOpen} onOpenChange={updateModal.onOpenChange} action={() => type === "Comment" ? updateComment() : updatePost()} content={content} setContent={setContent} data={data} />
+      <ConfirmDeleteComponent type={type} isOpen={modal.isOpen} onOpenChange={modal.onOpenChange} action={() => type === "Comment" ? deleteComment() : deletePost()} />
       <Dropdown>
         <DropdownTrigger>
           <Button
@@ -68,13 +105,14 @@ export default function DropdownComponent({ type, data, deleteSuccessPopup, setD
         </DropdownTrigger>
         <DropdownMenu variant="faded" aria-label="Dropdown menu with icons">
           <DropdownItem
+            onPress={() => updateModal.onOpen()}
             key="edit"
             startContent={<EditDocumentIcon className={iconClasses} />}
           >
             Edit {type}
           </DropdownItem>
           <DropdownItem
-            onPress={() => onOpen()}
+            onPress={() => modal.onOpen()}
             key="delete"
             className="text-danger"
             color="danger"

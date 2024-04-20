@@ -29,8 +29,19 @@ exports.removePost = (req, res) => {
     const {postId} = req.params;
     Commnunities.findOneAndDelete({ _id: postId })
     .then(post => {
-        res.json({message: "ลบสำเร็จ"});
+        res.json({message: "ลบโพสต์สำเร็จ"});
     }).catch(err => {
         res.status(500).json({error: "Internal Server Error"});
     });
+}
+
+exports.updatePost = (req, res) => {
+    const {postId} = req.params;
+    const {author, content} = req.body;
+    Commnunities.findOneAndUpdate({_id: postId}, {author, content}, {new: true}).exec()
+    .then(post => {
+        res.json({message: "อัพเดตโพสต์สำเร็จ"});
+    }).catch(err => {
+        res.status(500).json({error: "Internal Server Error"});
+    })
 }
