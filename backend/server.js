@@ -6,6 +6,7 @@ require("dotenv").config();
 
 const authRoute = require("./routes/auth");
 const communityRoute = require("./routes/community");
+const commentRouter = require("./routes/comment");
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(morgan("dev"));
 
 app.use("/api", authRoute);
 app.use("/api", communityRoute);
+app.use("/api", commentRouter);
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => console.log(`start server in port ${port}`));

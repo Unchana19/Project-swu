@@ -15,3 +15,12 @@ exports.create = async (req, res) => {
         res.status(400).json({error: err.massage});
     }
 }
+
+exports.getAllPosts = (req, res) => {
+    Commnunities.find({}).exec()
+    .then(posts => {
+        res.json(posts);
+    }).catch(err => {
+        res.status(500).json({error: "Internal Server Error"});
+    });
+}

@@ -1,6 +1,7 @@
 const Users = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const expressJwt = require('express-jwt');
 
 exports.createAccount = async (req, res) => {
     const { username, email, password } = req.body;
@@ -54,3 +55,9 @@ exports.login = async (req, res) => {
             return res.status(500).json({ error: "Internal server error" });
         });
 }
+
+exports.requireLogin = expressJwt({
+    secret: process.env.JWT_SECRET,
+    algorithms: ["HS256"],
+    userProperty: "auth",}
+);
