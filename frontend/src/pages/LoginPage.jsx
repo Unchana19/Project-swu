@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import ModalPopup from "../components/ModalPopUp";
 import { authenticate, getSession } from "../services/authorize";
+import HealthIcon from "../components/HealthIcon";
 
 export default function LoginPage() {
     const navigate = useNavigate();
@@ -26,9 +27,9 @@ export default function LoginPage() {
 
     const login = (e) => {
         e.preventDefault();
-        axios.post(`${import.meta.env.VITE_API}/login`, {email, password})
+        axios.post(`${import.meta.env.VITE_API}/login`, { email, password })
             .then(response => {
-               authenticate(response, () => refreshPage());
+                authenticate(response, () => refreshPage());
             }).catch(err => {
                 setTextPopup(err.response.data.error);
                 onOpen()
@@ -39,7 +40,10 @@ export default function LoginPage() {
         <div className="w-full max-w-xl flex flex-col justify-center items-center">
             <ModalPopup isOpen={isOpen} onOpenChange={onOpenChange} text={textPopup} buttonText={"Close"} link={null} />
             <form onSubmit={login} className="w-full p-5 m-10 flex flex-col justify-center items-center">
-                <p className="text-5xl font-bold mb-10">LOGO</p>
+                <div className="flex items-center justify-center mb-10">
+                    <HealthIcon size={"4"} props={"mr-2"} color={"green"} />
+                    <p className="text-5xl text-green-700 font-bold">HEALTH YOU</p>
+                </div>
                 <InputComponent type={"email"} value={email} setValue={setEmail} label={"Email"} invalidText={"กรุณากรอกอีเมลล์"} />
                 <InputPasswordComponent value={password} setValue={setPassword} label={"Password"} invalidText={"กรุณากรอกรหัสผ่าน"} />
                 <Button type="submit" className="my-3 px-10" color="success" size="lg">

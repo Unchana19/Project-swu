@@ -7,10 +7,11 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import ModalPopup from "../components/ModalPopUp";
 import { getSession } from "../services/authorize";
+import HealthIcon from "../components/HealthIcon";
 
 export default function SignUpPage() {
     const navigate = useNavigate();
-    const {isOpen, onOpen, onOpenChange} = useDisclosure();
+    const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const [textPopup, setTextPopup] = useState("");
     const [link, setLink] = useState();
 
@@ -26,33 +27,36 @@ export default function SignUpPage() {
     const signUp = (e) => {
         e.preventDefault();
         if (email && password && (password === confirmPassword) && email.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i) && password.length >= 6) {
-            axios.post(`${import.meta.env.VITE_API}/createAccount`, {username, email, password})
-            .then(res => {
-                setLink("Login");
-                setTextPopup("สร้างบัญชีสำเร็จ");
-                onOpen()
+            axios.post(`${import.meta.env.VITE_API}/createAccount`, { username, email, password })
+                .then(res => {
+                    setLink("Login");
+                    setTextPopup("สร้างบัญชีสำเร็จ");
+                    onOpen()
 
-                setUsername("");
-                setEmail("");
-                setPassword("");
-                setConfirmPassword("");
-            }).catch(err => {
-                console.log(err.response);
-                if (err.response.data.code === 11000) {
-                    setTextPopup("อีเมลล์นี้ถูกใช้งานแล้ว");
-                }
-                setLink(null);
-                setTextPopup(err.response.data.error);
-                onOpen()
-            });
+                    setUsername("");
+                    setEmail("");
+                    setPassword("");
+                    setConfirmPassword("");
+                }).catch(err => {
+                    console.log(err.response);
+                    if (err.response.data.code === 11000) {
+                        setTextPopup("อีเมลล์นี้ถูกใช้งานแล้ว");
+                    }
+                    setLink(null);
+                    setTextPopup(err.response.data.error);
+                    onOpen()
+                });
         }
     }
 
     return (
         <div className="w-full max-w-xl flex flex-col justify-center items-center">
-             <ModalPopup isOpen={isOpen} onOpenChange={onOpenChange} text={textPopup} buttonText={"Close"} link={link} />
+            <ModalPopup isOpen={isOpen} onOpenChange={onOpenChange} text={textPopup} buttonText={"Close"} link={link} />
             <form onSubmit={signUp} className="w-full p-5 m-10 flex flex-col justify-center items-center">
-                <p className="text-5xl font-bold mb-10">LOGO</p>
+                <div className="flex items-center justify-center mb-10">
+                    <HealthIcon size={"4"} props={"mr-2"} color={"green"} />
+                    <p className="text-5xl text-green-700 font-bold">HEALTH YOU</p>
+                </div>
                 <InputComponent type={"text"} value={username} setValue={setUsername} label={"Username"} invalidText={"กรุณากรอกชื่อผู้ใช้งาน"} />
                 <InputComponent type={"email"} value={email} setValue={setEmail} label={"Email"} invalidText={"กรุณากรอกอีเมลล์"} />
                 <InputPasswordComponent value={password} setValue={setPassword} label={"Password"} invalidText={"กรุณากรอกรหัสผ่านอย่างน้อย 6 ตัว"} />

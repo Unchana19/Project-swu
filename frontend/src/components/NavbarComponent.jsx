@@ -2,6 +2,7 @@ import React from "react";
 import { Navbar, NavbarBrand, NavbarMenuToggle, NavbarMenuItem, NavbarMenu, NavbarContent, NavbarItem, Button, Avatar } from "@nextui-org/react";
 import { getSession } from "../services/authorize";
 import { Link, useLocation } from "react-router-dom";
+import HealthIcon from "./HealthIcon";
 
 export default function NavbarComponent() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -27,13 +28,15 @@ export default function NavbarComponent() {
 
       <NavbarContent className="sm:hidden pr-3" justify="center">
         <NavbarBrand>
-          <p className="font-bold text-inherit text-white">LOGO</p>
+          <HealthIcon size={"2"} props={"mr-1"} color={"white"} />
+          <p className="font-bold text-inherit text-white">HEALTH YOU</p>
         </NavbarBrand>
       </NavbarContent>
 
-      <NavbarContent className="hidden sm:flex gap-6" justify="center">
+      <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarBrand>
-          <p className="font-bold text-inherit text-white">LOGO</p>
+          <HealthIcon size={"2"} props={"mr-1"} color={"white"} />
+          <p className="font-bold text-inherit text-white">HEALTH YOU</p>
         </NavbarBrand>
         <NavbarItem>
           <Link to="/" aria-current={location.pathname === "/" ? "page" : undefined}>
