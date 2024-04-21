@@ -29,7 +29,7 @@ export default function ScrollToTopButton() {
     return (
         <Button onPress={() => scrollToTop()}
             color=""
-            className={`fixed ${isVisible ? "flex" : "hidden"} bottom-3 right-3`}
+            className={`fixed ${isVisible ? "flex" : "hidden"} bottom-3 right-3 z-10`}
             isIconOnly
         >
             <svg
