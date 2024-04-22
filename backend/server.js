@@ -26,3 +26,5 @@ app.use("/api", commentRouter);
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => console.log(`start server in port ${port}`));
+
+module.exports = app;
