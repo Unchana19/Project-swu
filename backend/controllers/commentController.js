@@ -1,58 +1,72 @@
 const Comments = require("../models/Comments");
 
 exports.comment = async (req, res) => {
-    const {postId, author, content} = req.body;
+    console.time("\x1b[33mcomment\x1b[0m");
+    const { postId, author, content } = req.body;
 
-    switch(true) {
-        case !content:
-            return res.status(400).json({error: "invalid content"});
+    if (!content) {
+        console.timeEnd("\x1b[33mcomment\x1b[0m");
+        return res.status(400).json({ error: "invalid content" });
     }
+
     try {
-        const comment = await Comments.create({postId, author, content});
+        const comment = await Comments.create({ postId, author, content });
+        console.timeEnd("\x1b[33mcomment\x1b[0m");
         res.json(comment);
     } catch (err) {
-        res.status(400).json({error: err.message});
+        console.timeEnd("\x1b[33mcomment\x1b[0m");
+        res.status(400).json({ error: err.message });
     }
 }
 
 exports.getAllComment = async (req, res) => {
-    const {postId} = req.body;
+    const { postId } = req.body;
 
-    Comments.find({postId: postId}).sort({ createdAt: -1 }).exec()
-    .then(comments => {
+    try {
+        const comments = await Comments.find({ postId: postId }).sort({ createdAt: -1 }).exec();
         res.json(comments);
-    }).catch(err => {
-        res.status(500).json({error: "Internal Server Error"});
-    });
+    } catch (err) {
+        res.status(500).json({ error: "Internal Server Error" });
+    }
 }
 
 exports.removeComment = async (req, res) => {
-    const {commentId} = req.params;
-    Comments.findOneAndDelete({ _id: commentId})
-    .then(comment => {
-        res.json({message: "ลบความคิดเห็นสำเร็จ"});
-    }).catch(err => {
-        res.status(500).josn({error: "Internal Server Error"});
-    });
+    console.time("\x1b[33mremoveComment\x1b[0m");
+    const { commentId } = req.params;
+
+    try {
+        const comment = await Comments.findOneAndDelete({ _id: commentId });
+        console.timeEnd("\x1b[33mremoveComment\x1b[0m");
+        res.json({ message: "ลบความคิดเห็นสำเร็จ" });
+    } catch (err) {
+        console.timeEnd("\x1b[33mremoveComment\x1b[0m");
+        res.status(500).json({ error: "Internal Server Error" });
+    }
 }
 
 exports.removeCommentInPost = async (req, res) => {
-    const {postId} = req.params;
-    Comments.deleteMany({ postId: postId })
-    .then(comments => {
-        res.json({message: "ลบความคิดเห็นสำเร็จ"});
-    }).catch(err => {
-        res.status(500).json({error: "Internal Server"});
-    })
+    console.time("\x1b[33mremoveCommentInPost\x1b[0m");
+    const { postId } = req.params;
+
+    try {
+        await Comments.deleteMany({ postId: postId });
+        console.timeEnd("\x1b[33mremoveCommentInPost\x1b[0m");
+        res.json({ message: "ลบความคิดเห็นสำเร็จ" });
+    } catch (err) {
+        console.timeEnd("\x1b[33mremoveCommentInPost\x1b[0m");
+    }
 }
 
 exports.updateComment = async (req, res) => {
-    const {commentId} = req.params;
-    const {postId, author, content} = req.body;
-    Comments.findOneAndUpdate({_id: commentId}, {postId, author, content}, {new: true}).exec()
-    .then(comment => {
-        res.json({message: "อัพเดทความคิดเห็นสำเร็จ"});
-    }).catch(err => {
-        res.status(500).json({error: "Internal Server Error"});
-    });
+    console.time("\x1b[33mupdateComment\x1b[0m");
+    const { commentId } = req.params;
+    const { postId, author, content } = req.body;
+
+    try {
+        const comment = await Comments.findOneAndUpdate({ _id: commentId }, { postId, author, content }, { new: true }).exec();
+        console.timeEnd("\x1b[33mupdateComment\x1b[0m");
+    } catch (err) {
+        console.timeEnd("\x1b[33mupdateComment\x1b[0m");
+        res.status(500).json({ error: "Internal Server Error" });
+    }
 }
