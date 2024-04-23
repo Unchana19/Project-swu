@@ -56,7 +56,7 @@ export default function SignUpPage() {
 
     return (
         <div className="w-full max-w-xl flex flex-col justify-center items-center">
-            <ModalPopup isOpen={isOpen} onOpenChange={onOpenChange} text={textPopup} buttonText={"Close"} link={link} />
+            <ModalPopup isOpen={isOpen} onOpenChange={onOpenChange} text={textPopup} buttonText={"Close"} link={link} progress={null} />
             {isLoading && (
                 <ModalPopup isOpen={true} onOpenChange={() => { }} text={"กำลังสร้างบัญชีผู้ใช้..."} buttonText={null} link={null} />
             )}
