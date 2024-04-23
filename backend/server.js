@@ -11,8 +11,6 @@ const commentRouter = require("./routes/comment");
 const app = express();
 
 mongoose.connect(process.env.DB_CON, {
-    useNewUrlParser: true,
-    useUnifiedTopology: false,
 }).then(() => console.log("connect successful"))
 .catch((err) => console.log(err));
 
