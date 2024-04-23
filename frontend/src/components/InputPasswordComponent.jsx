@@ -3,13 +3,13 @@ import { Input } from "@nextui-org/react";
 import { EyeFilledIcon } from "./EyeFilledIcon";
 import { EyeSlashFilledIcon } from "./EyeSlashFilledIcon";
 
-export default function InputPasswordComponent({ value, setValue, label, invalidText }) {
+export default function InputPasswordComponent({ value, setValue, label, invalidText, validate }) {
     const [isVisible, setIsVisible] = React.useState(false);
 
     const toggleVisibility = () => setIsVisible(!isVisible);
     const isInvalid = useMemo(() => {
         if (value === "" || value === null) return true;
-        if (value.length < 6) {
+        if (value.length < 6 && validate) {
             return true;
         }
         

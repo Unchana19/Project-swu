@@ -11,7 +11,7 @@ export default function ConfirmDeleteComponent({type, isOpen, onOpenChange, acti
               <ModalHeader className="flex flex-col gap-1"></ModalHeader>
               <ModalBody className="text-slate-950 font-bold text-2xl text-center my-5">
                 <p> 
-                  {`ยืนยันที่จะลบ${type === "Comment" ? "คอมเมนต์" : "โพสต์"}หรือไม่?`}
+                  {`ยืนยันที่จะลบ${type === "Comment" ? "ความคิดเห็น" : "โพสต์"}หรือไม่?`}
                 </p>
               </ModalBody>
               <ModalFooter>

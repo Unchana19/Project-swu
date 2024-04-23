@@ -30,7 +30,7 @@ exports.removeComment = async (req, res) => {
     const {commentId} = req.params;
     Comments.findOneAndDelete({ _id: commentId})
     .then(comment => {
-        res.json({message: "ลบสำเร็จ"});
+        res.json({message: "ลบความคิดเห็นสำเร็จ"});
     }).catch(err => {
         res.status(500).josn({error: "Internal Server Error"});
     });
@@ -40,7 +40,7 @@ exports.removeCommentInPost = async (req, res) => {
     const {postId} = req.params;
     Comments.deleteMany({ postId: postId })
     .then(comments => {
-        res.json({message: "ลบคอมเมนต์สำเร็จ"});
+        res.json({message: "ลบความคิดเห็นสำเร็จ"});
     }).catch(err => {
         res.status(500).json({error: "Internal Server"});
     })
@@ -51,7 +51,7 @@ exports.updateComment = async (req, res) => {
     const {postId, author, content} = req.body;
     Comments.findOneAndUpdate({_id: commentId}, {postId, author, content}, {new: true}).exec()
     .then(comment => {
-        res.json({message: "อัพเดทคอมเมนต์สำเร็จ"});
+        res.json({message: "อัพเดทความคิดเห็นสำเร็จ"});
     }).catch(err => {
         res.status(500).json({error: "Internal Server Error"});
     });

@@ -14,6 +14,7 @@ export default function SignUpPage() {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const [textPopup, setTextPopup] = useState("");
     const [link, setLink] = useState();
+    const [isLoading, setIsLoading] = useState(false);
 
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
@@ -26,6 +27,8 @@ export default function SignUpPage() {
 
     const signUp = (e) => {
         e.preventDefault();
+        setIsLoading(true);
+
         if (email && password && (password === confirmPassword) && email.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i) && password.length >= 6) {
             axios.post(`${import.meta.env.VITE_API}/createAccount`, { username, email, password })
                 .then(res => {
@@ -45,6 +48,8 @@ export default function SignUpPage() {
                     setLink(null);
                     setTextPopup(err.response.data.error);
                     onOpen()
+                }).finally(() => {
+                    setIsLoading(false);
                 });
         }
     }
@@ -52,6 +57,9 @@ export default function SignUpPage() {
     return (
         <div className="w-full max-w-xl flex flex-col justify-center items-center">
             <ModalPopup isOpen={isOpen} onOpenChange={onOpenChange} text={textPopup} buttonText={"Close"} link={link} />
+            {isLoading && (
+                <ModalPopup isOpen={true} onOpenChange={() => { }} text={"กำลังสร้างบัญชีผู้ใช้..."} buttonText={null} link={null} />
+            )}
             <form onSubmit={signUp} className="w-full p-5 m-10 flex flex-col justify-center items-center">
                 <div className="flex items-center justify-center mb-10">
                     <HealthIcon size={"4"} props={"mr-2"} color={"green"} />
@@ -59,7 +67,7 @@ export default function SignUpPage() {
                 </div>
                 <InputComponent type={"text"} value={username} setValue={setUsername} label={"Username"} invalidText={"กรุณากรอกชื่อผู้ใช้งาน"} />
                 <InputComponent type={"email"} value={email} setValue={setEmail} label={"Email"} invalidText={"กรุณากรอกอีเมลล์"} />
-                <InputPasswordComponent value={password} setValue={setPassword} label={"Password"} invalidText={"กรุณากรอกรหัสผ่านอย่างน้อย 6 ตัว"} />
+                <InputPasswordComponent value={password} setValue={setPassword} label={"Password"} invalidText={"กรุณากรอกรหัสผ่านอย่างน้อย 6 ตัว"} validate={true} />
                 <InputConfirmPasswordComponent value={confirmPassword} setValue={setConfirmPassword} label={"Confirm Password"} invalidText={"กรุณายืนยันรหัสผ่าน"} password={password} />
                 <Button type="submit" className="my-3" color="success" size="lg">
                     <p className="text-xl px-5">Sign up</p>
