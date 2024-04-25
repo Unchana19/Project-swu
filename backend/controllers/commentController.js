@@ -62,11 +62,12 @@ exports.updateComment = async (req, res) => {
     const { commentId } = req.params;
     const { postId, author, content } = req.body;
 
-    try {
-        const comment = await Comments.findOneAndUpdate({ _id: commentId }, { postId, author, content }, { new: true }).exec();
-        console.timeEnd("\x1b[33mupdateComment\x1b[0m");
-    } catch (err) {
-        console.timeEnd("\x1b[33mupdateComment\x1b[0m");
-        res.status(500).json({ error: "Internal Server Error" });
-    }
+    Comments.findOneAndUpdate({ _id: commentId }, { postId, author, content }, { new: true }).exec()
+        .then(comment => {
+            console.timeEnd("\x1b[33mupdatePost\x1b[0m");
+            res.json({ message: "อัพเดตความคิดเห็นสำเร็จ" });
+        }).catch(err => {
+            console.timeEnd("\x1b[33mupdatePost\x1b[0m");
+            res.status(500).json({ error: "Internal Server Error" });
+        });
 }

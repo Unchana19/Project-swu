@@ -195,7 +195,7 @@ describe('Comment Controller', () => {
         .delete(`/api/comment/${comment._id}`)
         .expect(200);
 
-      expect(res.body.message).toBe('ลบสำเร็จ');
+      expect(res.body.message).toBe('ลบความคิดเห็นสำเร็จ');
     });
   });
 
@@ -211,9 +211,63 @@ describe('Comment Controller', () => {
       const res = await request(server)
         .put(`/api/comment/${comment._id}`)
         .send(updatedData)
-        .expect(200);
+        .expect(200)
 
-      expect(res.body.message).toBe('อัพเดทคอมเมนต์สำเร็จ');
+      expect(res.body.message).toBe('อัพเดตความคิดเห็นสำเร็จ');
     });
+  });
+});
+
+const BMICal = require("../services/BMICal");
+
+describe('BMICal', () => {
+  test('should return correct BMI and status for normal weight', () => {
+    const result = BMICal(60, 170);
+    expect(result).toEqual({
+      BMI: '20.76',
+      status: 'ปกติ (สุขภาพดี)',
+    });
+  });
+
+  test('should return correct BMI and status for underweight', () => {
+    const result = BMICal(45, 160);
+    expect(result).toEqual({
+      BMI: '17.58',
+      status: 'น้ำหนักน้อยหรือผอม',
+    });
+  });
+
+  test('should return correct BMI and status for overweight level 1', () => {
+    const result = BMICal(60, 160);
+    expect(result).toEqual({
+      BMI: '23.44',
+      status: 'ท้วม / อ้วนระดับ 1',
+    });
+  });
+
+  test('should return correct BMI and status for overweight level 2', () => {
+    const result = BMICal(80, 170);
+    expect(result).toEqual({
+      BMI: '27.68',
+      status: 'อ้วนระดับ 2',
+    });
+  });
+
+  test('should return correct BMI and status for overweight level 3', () => {
+    const result = BMICal(100, 170);
+    expect(result).toEqual({
+      BMI: '34.60',
+      status: 'อ้วนระดับ 3',
+    });
+  });
+
+  test('should return undefined for negative weight or height', () => {
+    const result = BMICal(-50, 160);
+    expect(result).toBeUndefined();
+  });
+
+  test('should return undefined for zero weight or height', () => {
+    const result = BMICal(0, 160);
+    expect(result).toBeUndefined();
   });
 });

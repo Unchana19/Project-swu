@@ -49,6 +49,7 @@ exports.updatePost = (req, res) => {
     console.time("\x1b[33mupdatePost\x1b[0m");
     const { postId } = req.params;
     const { author, content } = req.body;
+
     Commnunities.findOneAndUpdate({ _id: postId }, { author, content }, { new: true }).exec()
         .then(post => {
             console.timeEnd("\x1b[33mupdatePost\x1b[0m");
@@ -56,5 +57,5 @@ exports.updatePost = (req, res) => {
         }).catch(err => {
             console.timeEnd("\x1b[33mupdatePost\x1b[0m");
             res.status(500).json({ error: "Internal Server Error" });
-        })
+        });
 }
