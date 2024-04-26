@@ -25,7 +25,7 @@ run server.js
 
 # **Frontend**
 
-![My Skills](https://skillicons.dev/icons?i=react,js,vite)
+![My Skills](https://skillicons.dev/icons?i=react,js,vite,tailwind)
 
 ## Setup
 install node modules
