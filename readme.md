@@ -10,7 +10,7 @@ Example website: [Health You](https://healthyou.netlify.app/)
 
 # **Backend**
 
-![My Skills](https://skillicons.dev/icons?i=nodejs,mongo,express,tailwind)
+![My Skills](https://skillicons.dev/icons?i=nodejs,mongo,express)
 
 ## Setup
 To get started, follow these steps:
@@ -33,7 +33,7 @@ run server.js
 
 # **Frontend**
 
-![My Skills](https://skillicons.dev/icons?i=react,js,vite)
+![My Skills](https://skillicons.dev/icons?i=react,js,vite,tailwind)
 
 ## Setup
 
